@@ -486,7 +486,7 @@ class SkeletonSprite extends #if !zygame Sprite #else DisplayObjectContainer #en
 					atlasRegion = cast region.getRegion();
 				}
 				// 裁剪实现
-				if (clipper.isClipping()) {
+				if (clipper.isClipping() && triangles != null) {
 					clipper.clipTriangles(_tempVerticesArray, _tempVerticesArray.length, triangles, triangles.length, uvs, 1, 1, true);
 					if (clipper.getClippedTriangles().length == 0) {
 						clipper.clipEndWithSlot(slot);
