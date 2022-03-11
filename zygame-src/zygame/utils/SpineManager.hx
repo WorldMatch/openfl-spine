@@ -3,11 +3,22 @@ package zygame.utils;
 import openfl.events.Event;
 import openfl.display.Stage;
 import spine.base.SpineBaseDisplay;
+import spine.openfl.SkeletonAnimation;
 
 /**
  * 用于管理Spine的动画统一播放处理
  */
 class SpineManager {
+
+#if debug
+	public static var pathConstraintsCount(default, null):Int;
+	public static var transformConstraintsCount(default, null):Int;
+	public static var slotCount(default, null):Int;
+	public static var boneCount(default, null):Int;
+	static public var objCount(get, null):Int;
+		static function get_objCount():Int  { return spineOnFrames.length;}
+#end
+
 	private static var spineOnFrames:Array<SpineBaseDisplay> = [];
 
 	private static var stage:Stage;
@@ -56,6 +67,25 @@ class SpineManager {
 	}
 
 	private static function onFrame(event:Event):Void {
+		
+#if debug
+		boneCount = 0;
+		slotCount = 0;
+		transformConstraintsCount = 0;
+		pathConstraintsCount = 0;
+		
+		for (display in spineOnFrames)
+		{
+			if (Std.isOfType(display, SkeletonAnimation))
+			{
+				boneCount += cast(display, SkeletonAnimation).skeleton.bones.size;
+				slotCount += cast(display, SkeletonAnimation).skeleton.slots.size;
+				transformConstraintsCount += cast(display, SkeletonAnimation).skeleton.transformConstraints.size;
+				pathConstraintsCount += cast(display, SkeletonAnimation).skeleton.pathConstraints.size;
+			}
+		}
+#end 
+
 		_newFpsTime = Date.now().getTime();
 		var currentFpsTime = _newFpsTime - _lastFpsTime;
 		currentFpsTime = currentFpsTime / 1000;
@@ -93,6 +123,7 @@ class SpineManager {
 	 * 从更新器中移除
 	 * @param spine
 	 */
+	 
 	public static function removeOnFrame(spine:SpineBaseDisplay):Void {
 		spineOnFrames.remove(spine);
 	}
