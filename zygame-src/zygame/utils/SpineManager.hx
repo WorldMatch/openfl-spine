@@ -15,8 +15,7 @@ class SpineManager {
 	public static var transformConstraintsCount(default, null):Int;
 	public static var slotCount(default, null):Int;
 	public static var boneCount(default, null):Int;
-	static public var objCount(get, null):Int;
-		static function get_objCount():Int  { return spineOnFrames.length;}
+	public static var objCount(default, null):Int;
 #end
 
 	private static var spineOnFrames:Array<SpineBaseDisplay> = [];
@@ -73,11 +72,13 @@ class SpineManager {
 		slotCount = 0;
 		transformConstraintsCount = 0;
 		pathConstraintsCount = 0;
+		objCount = 0;
 		
 		for (display in spineOnFrames)
 		{
-			if (Std.isOfType(display, SkeletonAnimation))
+			if (Std.isOfType(display, SkeletonAnimation) && display.isPlay)
 			{
+				objCount++;
 				boneCount += cast(display, SkeletonAnimation).skeleton.bones.size;
 				slotCount += cast(display, SkeletonAnimation).skeleton.slots.size;
 				transformConstraintsCount += cast(display, SkeletonAnimation).skeleton.transformConstraints.size;
