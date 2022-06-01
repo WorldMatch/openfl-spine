@@ -461,7 +461,7 @@ class SkeletonSprite extends #if !zygame Sprite #else DisplayObjectContainer #en
 			// 如果骨骼的渲染物件存在
 			if (slot.attachment != null) {
 				// 如果不可见的情况下，则隐藏
-				if (slot.color.a == 0)
+				if (!clipper.isClipping() && slot.color.a == 0)
 					continue;
 				if (Std.isOfType(slot.attachment, ClippingAttachment)) {
 					// 如果是剪切
