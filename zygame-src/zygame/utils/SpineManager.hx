@@ -16,6 +16,7 @@ class SpineManager {
 	public static var slotCount(default, null):Int;
 	public static var boneCount(default, null):Int;
 	public static var objCount(default, null):Int;
+	public static var updatedObjectsList(default, null):Array<String> = [];
 #end
 
 	private static var spineOnFrames:Array<SpineBaseDisplay> = [];
@@ -73,18 +74,26 @@ class SpineManager {
 		transformConstraintsCount = 0;
 		pathConstraintsCount = 0;
 		objCount = 0;
+
+		var objNames:Array<String> = [];
 		
 		for (display in spineOnFrames)
 		{
 			if (Std.isOfType(display, SkeletonAnimation) && display.isPlay)
 			{
 				objCount++;
+				var assetId = cast(display, SkeletonAnimation).assetsId;
+				var assetName = assetId.substr(0, assetId.length - 32);
+				objNames.push(assetName);
+				trace("test -> " + assetName);
 				boneCount += cast(display, SkeletonAnimation).skeleton.bones.size;
 				slotCount += cast(display, SkeletonAnimation).skeleton.slots.size;
 				transformConstraintsCount += cast(display, SkeletonAnimation).skeleton.transformConstraints.size;
 				pathConstraintsCount += cast(display, SkeletonAnimation).skeleton.pathConstraints.size;
 			}
 		}
+
+		updatedObjectsList = objNames; 
 #end 
 
 		_newFpsTime = Date.now().getTime();
