@@ -85,7 +85,6 @@ class SpineManager {
 				var assetId = cast(display, SkeletonAnimation).assetsId;
 				var assetName = assetId.substr(0, assetId.length - 32);
 				objNames.push(assetName);
-				trace("test -> " + assetName);
 				boneCount += cast(display, SkeletonAnimation).skeleton.bones.size;
 				slotCount += cast(display, SkeletonAnimation).skeleton.slots.size;
 				transformConstraintsCount += cast(display, SkeletonAnimation).skeleton.transformConstraints.size;
